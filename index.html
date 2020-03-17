@@ -1,56 +1,57 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <title>Project 2003 | Home</title>
-        <meta property="og:title" content="GEOM99 - Project 2003" />
-        <meta property="og:description" content="UX/UI Time Series Web Application">
-        <meta property="og:url" content="https://github.com/samlibby/ricelakeplains/index.html" />
-        <meta property="og:image" content="https://github.com/samlibby/ricelakeplains/ember_logo.png" />
-        <link rel="stylesheet" href="https://github.com/samlibby/ricelakeplains/cssTest.css">
-    </head>
+<head>
+<style>
+body {margin:0;}
 
-    <body>
+ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  background-color: #9999;
+  position: fixed;
+  top: 0;
+  width: 100%;
+}
 
-        <nav class="navbar navbar-fixed-top" role="navigation" id="navbar" >
-            <div class="navbar-inner">
-            <div class="container">
-                <!-- Brand and toggle get grouped for better mobile display -->
-                <div class="navbar-header">
-                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
-                        <span class="sr-only">Toggle navigation</span>
-                        <span class="icon-bar white-icon-bar"></span>
-                        <span class="icon-bar white-icon-bar"></span>
-                        <span class="icon-bar white-icon-bar"></span>
-                        
-                    </button>
-                    <a class="navbar-brand" href="/index.html">
-                        <img id="jupyter-nav-logo" class="navbar-logo" src="https://github.com/samlibby/ricelakeplains/ember_logo.png" alt="Ember brand logo">
-                    </a>
-                </div>
-                <div class="blur"></div>
-                <!-- Collect the nav links, forms, and other content for toggling -->
-                <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-                    <ul class="nav navbar-nav navbar-right">
-                        <li>
-                        <a href="https://github.com/samlibby/ricelakeplains/index.html" class="tab">Home</a>
-                        </li>
-                        <li>
-                            <a href="https://github.com/samlibby/ricelakeplains/team.html" class="tab">Our Team</a>
-                        </li>
-                        <li>
-                            <a href="https://github.com/samlibby/ricelakeplains/problem.html" class="tab">Problem Statement</a>
-                        </li>
-                        <li>
-                            <a href="https://github.com/samlibby/ricelakeplains/process.html" class="tab">Methodology</a>
-                        </li>
-                        <li>
-                            <a href="https://github.com/samlibby/ricelakeplains/product.html" class="tab">Final Outcomes</a>
-                        </li>
-                        <li>
-                            <a href="https://github.com/samlibby/ricelakeplains/references.html" class="tab">References</a>
-                        </li>
-                    </ul>
-                </div>
+li {
+  float: left;
+}
+
+li a {
+  display: block;
+  color: white;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+}
+
+li a:hover:not(.active) {
+  background-color: #9999;
+}
+
+.active {
+  background-color: #9999;
+}
+</style>
+</head>
+<body>
+
+<ul>
+  <li><a class="active" href="#home">Home</a></li>
+  <li><a href="#news">News</a></li>
+  <li><a href="#contact">Contact</a></li>
+  <li><a href="#about">About</a></li>
+</ul>
+
+<div style="padding:20px;margin-top:30px;background-color:#0000;height:1500px;">
+  <h1>Fixed Top Navigation Bar</h1>
+  <h2>Scroll this page to see the effect</h2>
+  <h2>The navigation bar will stay at the top of the page while scrolling</h2>
+
+ 
+</div>
+
+</body>
 </html>
