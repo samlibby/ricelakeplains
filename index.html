@@ -9,7 +9,7 @@ ul {
   margin: 0;
   padding: 0;
   overflow: hidden;
-  background-color: #9999;
+  background-color: white;
   position: fixed;
   top: 0;
   width: 100%;
@@ -35,23 +35,28 @@ li a:hover:not(.active) {
 .active {
   color: #fa762d;
 }
+  
+navbar-brand {
+  float:left
+}
+  
 </style>
 </head>
 <body>
 
 <div class="navbar">
   <div class="navbar-header">
-    <a class="navabr-brand" href="ember_logo.png"> Ember </a>
+    <a class="navbar-brand" href="ember_logo.png"></a>
   </div>
   <ul>
     <li><a class="active" href="#home">Home</a></li>
-    <li><a href="#news">News</a></li>
-    <li><a href="#contact">Contact</a></li>
-    <li><a href="#about">About</a></li>
+    <li><a href="#news">About</a></li>
+    <li><a href="#contact">Process</a></li>
+    <li><a href="#about">Product</a></li>
   </ul>
 
 <div style="padding:20px;margin-top:30px;background-color:#0000;height:1500px;">
-  <h1>Fixed Top Navigation Bar</h1>
+  <h1>GEOM99 - Project 2003</h1>
   <h2>Scroll this page to see the effect</h2>
   <h2>The navigation bar will stay at the top of the page while scrolling</h2>
 
