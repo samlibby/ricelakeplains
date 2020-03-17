@@ -9,7 +9,13 @@ body {margin:0;
   font-family:Arial;
 }
   
-nav{
+.logo img {
+  position:fixed;
+  margin-top:0px;
+  margin-left:10px;
+}
+  
+.nav{
   width:100%;
   position: fixed;
   top:0;
@@ -25,13 +31,7 @@ li {
   float: right;
 }
   
-.logo img {
-  position:fixed;
-  margin-top:0px;
-  margin-left:10px;
-}
-  
-nav a {
+.nav a {
   width:100px;
   display:block;
   padding:30px 30px;
@@ -41,23 +41,33 @@ nav a {
   text-align:center;
  }
   
-nav a:hover {
+.nav a:hover {
   color: #fa76sd;
  }
+
+.main {
+  padding: 16px;
+  margin-top: 30px;
+  height: 1500px; /*enable scrolling */
+}
   
 </style>
 </head>
 <body>
 <div class="logo"><a href="index.html"><img src="ember_logo.png"></a>
 </div>
-<nav>
+<div class="nav">
   <ul>
     <li><a href="#product">Product</a></li>
     <li><a href="#process">Process</a></li>
     <li><a href="#about">About</a></li>
     <li><a href="index.html">Home</a></li>
   </ul>
-</nav>
-
+</div>
+<div class="main">
+  <h1>Fixed Top Menu</h1>
+  <h2>Scroll this page to see the effect</h2>
+  <h2>The navigation bar will stay at the top of the page while scrolling</h2>
+</div>
 </body>
 </html>
