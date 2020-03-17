@@ -6,10 +6,16 @@ body {margin:0;
   padding:0;
   background: white;
 }
+  
+nav{
+  width:100%;
+  background: white;
+  overflow:auto;
+}
 
 ul {
   list-style-type: none;
-  margin: 0;
+  margin: 0 0 0 150px;
   padding: 0;
   overflow: hidden;
   background-color: white;
@@ -22,7 +28,21 @@ ul {
 li {
   float: right;
 }
-
+  
+.logo img {
+  position:absolute;
+  margin-top:15px;
+  margin-left:10px;
+}
+  
+nav a {
+  width:100px;
+  display:block;
+  padding: 20px 15px;
+  text-decoration:none;
+  font-family:Arial;
+ }
+  
 li a {
   display: block;
   color: black;
@@ -40,24 +60,19 @@ li a:hover:not(.active) {
   color: #fa762d;
 }
   
-.logo img {
-  position:absolute;
-  margin-top:15px;
-  margin-left:10px;
-}
-  
 </style>
 </head>
 <body>
 <div class="logo"><a href="index.html"><img src="ember_logo.png"></a>
 </div>
+<nav>
   <ul>
     <li><a class="active" href="index.html">Home</a></li>
     <li><a href="#about">About</a></li>
     <li><a href="#process">Process</a></li>
     <li><a href="#product">Product</a></li>
   </ul>
- </div>
+</nav>
 
 <div style="padding:20px;margin-top:30px;background-color:#0000;height:1500px;">
   <h1>GEOM99 - Project 2003</h1>
