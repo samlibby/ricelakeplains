@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
+<meta name="viewport" content="width=device+width,initial-scale=1">
 <style>
   
 body {margin:0;
@@ -62,6 +63,29 @@ h2 {
   font-size:20px;
 }
   
+* {
+  box-sizing: border-box;
+}
+  
+.column {
+  float: left;
+  width:33.33%;
+  padding:10px;
+  height:300px;
+}
+  
+.row:after {
+  content: "";
+  display:table;
+  clear:both;
+}
+ 
+@media screen and (max-width:600px) {
+  .column {
+    width: 100%;
+  }
+}
+  
 </style>
 </head>
 <body>
@@ -83,6 +107,18 @@ h2 {
   <h2> Reality: No website currently exists and spatial data is inaccessible to the public, so there is no way to engage the community of the Rice Lake Plains to learn about past prescribed burns. A proof of concept (with existing data) will be created until the validity of our data can be confirmed.</h2> 
   <h2> Consequences: Without this web application, the Nature Conservancy of Canada would not have the ability to effectively communicate prescribed burn activities to the public and their stakeholders. </h2> 
   <h2> Proposal: Create a web application that features an interactive time series of the Nature Conservancy of Canada’s burned land parcels over a 15-year period. </h2> 
+</div>
+<div class="row">
+  <div class="column">
+    <h2> Column 1 </h2>
   </div>
+  <div class="column">
+    <h2> Column 2 </h2>
+  </div>
+  <div class="column">
+    <h2> Column 3 </h2>
+  </div>
+</div>
+  
 </body>
 </html>
