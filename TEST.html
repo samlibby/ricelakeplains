@@ -1,0 +1,699 @@
+<html>
+
+<head>
+
+  <title>Prescribed Burning in the Rice Lake Plains</title>
+
+  <meta name="description" content="History of prescribed burns completed on behalf of the Nature Conservancy of Canada
+
+  in order to restore and maintain the tallgrass prairie ecosystem.">
+
+  <meta name="author" content="Nature Conservancy of Canada">
+
+  <meta name="keywords" content="Nature Conservancy of Canada, prescribed burns, Rice Lake Plains, tallgrass prairie">
+
+  <meta charset="utf-8">
+
+  <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no">
+
+  <link href = "cssstyling.css" 
+
+	type = "text/css"
+
+	rel = "stylesheet">
+
+	
+
+<!--create a starter app https://developers.arcgis.com/labs/javascript/create-a-starter-app/-->
+
+<!--base from create a starter app-->  
+
+  
+
+    <link rel="stylesheet" href="https://js.arcgis.com/4.15/esri/themes/light/main.css">
+
+    <script src="https://js.arcgis.com/4.15/"></script>
+
+  
+
+  <script>  
+
+    //refererences to required modules
+
+	require([
+
+      "esri/Map",
+
+      "esri/views/MapView",
+
+	  "esri/layers/FeatureLayer",
+
+      "esri/widgets/BasemapGallery",
+
+	  "esri/widgets/Legend",
+
+	  "esri/widgets/Home",
+
+	  "esri/widgets/ScaleBar",
+
+	  "esri/widgets/Expand",
+
+	  "esri/widgets/Bookmarks",
+
+    ], function(Map, MapView, FeatureLayer, BasemapGallery, Legend, Home, ScaleBar, Expand, Bookmarks) {
+
+
+
+      var map = new Map({
+
+        basemap: "topo-vector"
+
+      });
+
+
+
+      var view = new MapView({
+
+        container: "viewDiv",
+
+        map: map,
+
+        center: [-78.059009, 44.116652],
+
+        zoom: 13
+
+	  });
+
+	  
+
+	  //home button https://developers.arcgis.com/javascript/latest/sample-code/widgets-home/index.html
+
+	  
+
+	  var homeBtn = new Home({
+
+        view: view
+
+        });
+
+
+
+      view.ui.add(homeBtn, "top-left");
+
+	  
+
+	  //scale bar https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-ScaleBar.html & https://codepen.io/pen?&editable=true&editors=100
+
+	  
+
+	  var scaleBar = new ScaleBar({
+
+		view: view,
+
+		unit: "metric"
+
+	  });
+
+
+
+	  view.ui.add(scaleBar, {position: "bottom-left"});
+
+	  
+
+	  //style feature layers https://developers.arcgis.com/labs/javascript/style-feature-layers/
+
+	  
+
+	  var PrescribedBurnRenderer = {
+
+	    type: "simple",
+
+		symbol: {
+
+		  type: "simple-fill",
+
+		  color: "#660000",
+
+		  outline: {
+
+		    width: 0.5,
+
+		    color: "#100c08"
+
+		  }
+
+		}
+
+	};
+
+	 
+
+	  //configure popups https://developers.arcgis.com/labs/javascript/configure-pop-ups/
+
+	  
+
+	  //table template
+
+	  var popupPrescribedBurn = {
+
+        "title": "{Action_Typ}",
+
+        "content": [{
+
+          "type": "fields",
+
+          "fieldInfos": [
+
+            {
+
+              "fieldName": "Parcel",
+
+              "label": "Parcel",
+
+              "isEditable": true,
+
+              "tooltip": "",
+
+              "visible": true,
+
+              "format": null,
+
+              "stringFieldOption": "text-box"
+
+            },
+
+            {
+
+              "fieldName": "Year_Compl",
+
+              "label": "Year Burned",
+
+              "isEditable": true,
+
+              "tooltip": "",
+
+              "visible": true,
+
+              "format": null,
+
+              "stringFieldOption": "text-box"
+
+            },
+
+            {
+
+              "fieldName": "UTM_HA",
+
+              "label": "Hectares",
+
+              "isEditable": true,
+
+              "tooltip": "",
+
+              "visible": true,
+
+              "format": {
+
+                "places": 2,
+
+                "digitSeparator": true
+
+              },
+
+              "stringFieldOption": "text-box"
+
+            },
+
+            {
+
+              "fieldName": "UTM_AC",
+
+              "label": "Acres",
+
+              "isEditable": true,
+
+              "tooltip": "",
+
+              "visible": true,
+
+              "format": {
+
+                "places": 2,
+
+                "digitSeparator": true
+
+              },
+
+              "stringFieldOption": "text-box"
+
+            }
+
+          ]
+
+        }]
+
+      }    
+
+	  
+
+	  // https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Popup.html#alignment & https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Popup.html#dockOptions
+
+	  
+
+	  view.popup.dockOptions = {position: "bottom-right"};
+
+	  view.popup.alignment = "top-right";
+
+	  
+
+	//add layers to a map https://developers.arcgis.com/labs/javascript/add-layers-to-a-map/
+
+	  
+
+	  //prescribed burn layer (polygon)
+
+      var featureLayer = new FeatureLayer({
+
+        url: "https://services1.arcgis.com/pMeXRvgWClLJZr3s/arcgis/rest/services/P2003/FeatureServer/2",
+
+		outFields: ["*"], //return all fields so it can be queried client-side
+
+		renderer: PrescribedBurnRenderer,
+
+		popupTemplate: popupPrescribedBurn,
+
+		opacity: .8
+
+      });
+
+      map.add(featureLayer, 2);
+
+	  
+
+	//filter a feature layer https://developers.arcgis.com/labs/javascript/filter-a-feature-layer/
+
+	  var sqlExpressions = ["Year_Compl > 2006", "Year_Compl = 2007", "Year_Compl = 2008", "Year_Compl = 2009", "Year_Compl = 2010", "Year_Compl = 2011", "Year_Compl = 2012", "Year_Compl = 2013", "Year_Compl = 2014", "Year_Compl = 2015", "Year_Compl = 2016", "Year_Compl = 2017", "Year_Compl = 2018", "Year_Compl = 2019"];
+
+	  
+
+	  var selectFilter = document.createElement("select");
+
+      selectFilter.setAttribute("class", "esri-widget esri-select");
+
+      selectFilter.setAttribute("style", "width: 125px; font-family: Avenir Next W00; font-size: 1em;");
+
+      sqlExpressions.forEach(function(sql){
+
+        var option = document.createElement("option");
+
+        option.value = sql; 
+
+        option.innerHTML = "Year " + sql.substr(11); //substring https://www.w3schools.com/jsref/jsref_substr.asp
+
+        selectFilter.appendChild(option);
+
+      });
+
+      view.ui.add(selectFilter, "top-right");
+
+        
+
+      selectFilter.addEventListener('change', function (event) {
+
+        // Client side
+
+        setFeatureLayerViewFilter(event.target.value);
+
+      });
+
+    
+
+      // Client-side filter
+
+      function setFeatureLayerViewFilter(expression) {
+
+        view.whenLayerView(featureLayer).then(function(featureLayerView) {
+
+          featureLayerView.filter = {
+
+            where: expression
+
+          };
+
+        });
+
+      }
+
+
+
+	//style feature layers https://developers.arcgis.com/labs/javascript/style-feature-layers/
+
+	
+
+	  //unique colours for parcels
+
+	  function createFillSymbol(value, color) {
+
+        return {
+
+          value: value,
+
+          symbol: {
+
+            color: color,
+
+            type: "simple-fill",
+
+            style: "none",
+
+            outline: {
+
+              width: 1.5,
+
+			  color: color
+
+            }
+
+          },
+
+          label: value
+
+        };
+
+      }
+
+
+
+      var ParcelRenderer = {
+
+        type: "unique-value",
+
+        field: "PROPERTY_N",
+
+        uniqueValueInfos: [
+
+          createFillSymbol("Barr", "#FCCDE5"),
+
+          createFillSymbol("Webber Block", "#8DD3C7"),
+
+          createFillSymbol("Salt Creek Nature Reserve", "#BEBADA"),
+
+          createFillSymbol("Peter's Woods Block", "#80B1D3"),
+
+		  createFillSymbol("Hazel Bird", "#FDB462"),
+
+		  createFillSymbol("Schultz", "#FFFFB3")
+
+        ]
+
+      };
+
+	  
+
+	//parcel layer (polygon)
+
+      var Parcel = new FeatureLayer({
+
+        url: "https://services1.arcgis.com/pMeXRvgWClLJZr3s/ArcGIS/rest/services/P2003/FeatureServer/1",
+
+		renderer: ParcelRenderer
+
+      });
+
+      map.add(Parcel, 1);  
+
+	  
+
+	  var RiceLakePlainsRenderer = {
+
+	    type: "simple",
+
+		symbol: {
+
+		  type: "simple-fill",
+
+		  color: [0, 0, 0, 0], //https://codepen.io/pen?editors=1000
+
+		  outline: {
+
+		    width: 1.5,
+
+		    color: "#100c08"
+
+		  }
+
+		}
+
+	};
+
+	  
+
+	  //Rice Lake Plains layer (polygon)
+
+	  var RiceLakePlains = new FeatureLayer ({
+
+	    url: "https://services1.arcgis.com/pMeXRvgWClLJZr3s/ArcGIS/rest/services/P2003/FeatureServer/0",
+
+		renderer: RiceLakePlainsRenderer
+
+	  });
+
+      map.add(RiceLakePlains, 0);
+
+	  
+
+	//basemap gallery, expand widget https://developers.arcgis.com/javascript/latest/sample-code/widgets-expand/index.html
+
+	  
+
+	  var basemapGallery = new BasemapGallery({
+
+        view: view,
+
+        container: document.createElement("div")
+
+      });
+
+
+
+      var bgExpand = new Expand({
+
+        view: view,
+
+        content: basemapGallery
+
+      });
+
+
+
+      view.ui.add(bgExpand, "top-left");
+
+	
+
+	//add a legend https://totalapis.github.io/api-reference/esri-widgets-Legend.html & https://community.esri.com/thread/176719 & https://developers.arcgis.com/javascript/latest/sample-code/widgets-legend-card/index.html
+
+	  const legend = new Expand({
+
+        content: new Legend({
+
+          view: view,
+
+          style: "classic",
+
+		  respectLayerVisibility: false,
+
+		  layerInfos: [{
+
+		    layer: RiceLakePlains,
+
+			title: "Rice Lake Plains"
+
+		  },{
+
+			layer: Parcel,
+
+			title: "Property Name",
+
+		  },{
+
+			layer: featureLayer,
+
+			title: "Prescribed Burn"
+
+		  }]
+
+        }),
+
+        view: view,
+
+        expanded: false,
+
+      });
+
+
+
+	  view.ui.add(legend, "top-left");  
+
+
+
+    });
+
+	
+
+</script>
+
+  
+
+</head>
+
+<body> 
+
+  <!--begin "custom"-->
+
+  <div class="header">
+
+    <div class="NCClogo">
+
+		<img src="NCC_Logo.png" alt="NCC logo">
+
+	</div>
+
+	<div class="headerTitle">
+
+		<h1> Prescribed Burns in the Rice Lake Plains </h1>
+
+	</div>
+
+  <!-- Modal box https://www.w3schools.com/howto/howto_css_modals.asp -->
+
+
+
+  <!-- Trigger/Open The Modal -->
+
+	<div class="button">
+
+	<button id="myBtn">
+
+		<div class="infoPopUp">
+
+			<img src="infoIcon.png" alt="Information icon">
+
+		</div>
+
+	</button>
+
+	</div>
+
+
+
+	<!-- The Modal -->
+
+	<div id="myModal" class="modal">
+
+
+
+	<!-- Modal content -->
+
+	<div class="modal-content">
+
+		<span class="close">&times;</span>
+
+		<p>Some text in the Modal..</p>
+
+    </div>
+
+	
+
+	</div>
+
+	<!--modal box-->
+
+	</div>
+
+  
+
+  <!--included from create a starter app-->  
+
+  <div id="viewDiv"></div>  
+
+
+
+<script>
+
+// Modal box https://www.w3schools.com/howto/howto_css_modals.asp
+
+// Get the modal
+
+var modal = document.getElementById("myModal");
+
+
+
+// Get the button that opens the modal
+
+var btn = document.getElementById("myBtn");
+
+
+
+// Get the <span> element that closes the modal
+
+var span = document.getElementsByClassName("close")[0];
+
+
+
+// When the user clicks the button, open the modal 
+
+btn.onclick = function() {
+
+  modal.style.display = "block";
+
+}
+
+
+
+// When the user clicks on <span> (x), close the modal
+
+span.onclick = function() {
+
+  modal.style.display = "none";
+
+}
+
+
+
+// When the user clicks anywhere outside of the modal, close it
+
+window.onclick = function(event) {
+
+  if (event.target == modal) {
+
+    modal.style.display = "none";
+
+  }
+
+}
+
+// When the user clicks the ESC key, close the modal -- added for accessibility
+
+// from https://www.sitepoint.com/community/t/javascript-close-a-model-with-escape-key/339524/2
+
+window.addEventListener('keydown', function (event) {
+
+  if (event.key === 'Escape') {
+
+    modal.style.display = "none";
+
+  }
+
+})
+
+
+
+// Modal box 
+
+</script>  
+
+  
+
+</body>
+
+</html>
